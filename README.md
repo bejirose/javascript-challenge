@@ -1,4 +1,4 @@
-# javascript-challenge : Mars
+# javascript-challenge : UFO Sightings 
 
 ## Directory Structure
 ### 1) UFO-level-1
