@@ -21,9 +21,7 @@ function handleClick() {
   var inputCountry = d3.select("#countryId").property("value");
   var inputShape = d3.select("#shapeId").property("value");
 
-  if (inputDate == "") {
-    inputDate = document.getElementById("datetime").placeholder;  // read the placeholder value if there is no input when the search button is clicked
-  }
+  //inputDate = document.getElementById("datetime").placeholder;  // read the placeholder value if there is no input when the search button is clicked
   console.log(inputDate);
   console.log(inputCity);
   console.log(inputShape);
@@ -39,13 +37,14 @@ function handleClick() {
     td1 = tr[0];
     dateValue = td[0];
     if (td[0]) {  // check if first column (date) is available - not working on an empty form
-     if ( td[0].textContent == inputDate) {   // continue only if Date data is available
-        city[i] = td[1].textContent;
-        isData = true;  // mark it true if date is matching. The following logic will set it to false, if any of the input field doesn't match
-     
+      if ( (td[0].textContent == inputDate) || (inputDate == "")) {   // continue only if Date data is available
+          city[i] = td[1].textContent;
+          isData = true;  // mark it true if date is matching. The following logic will set it to false, if any of the input field doesn't match
+      }
+
         if (inputCity) { 
           if ( td[1].textContent.toUpperCase() != inputCity.toUpperCase()) { 
-           isData = false;
+            isData = false;
           }   
         }
 
@@ -66,12 +65,8 @@ function handleClick() {
             isData = false;
           } 
         }
-      }
-      else {
-        isData = false;
-      }
-    } 
-    
+    }
+   
     if ( isData) {  // display the records that match the input criteria
       tr[i].style.display = "";
     }
@@ -82,38 +77,20 @@ function handleClick() {
   
 }
 
-function optionalSearch() {
-  // get the value from the datetime field to search thru the data and dislay the records that match the criteria
-  var input = d3.select("#datetime").property("value");
-  if (input == "") {
-    input = document.getElementById("datetime").placeholder;  // read the placeholder value if there is no input
-  }
-
-  table = document.getElementById("ufo-table");
-  tr = table.getElementsByTagName("tr");
-  for (i = 0; i < tr.length; i++) {
-    td1 = tr[i].getElementsByTagName("td");
-    dateValue = td1[0];
-    if (td1[0]) {
-      txtValue = dateValue.textContent || dateValue.innerText;
-      if (txtValue.indexOf(input) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
-    }       
-  }
-}
-
 // just wamted to add one drop down list
 function fillShape() {
   inputDate = d3.select("#datetime").property("value");
 
-  if (inputDate == "") {
-    inputDate = document.getElementById("datetime").placeholder;  // read the placeholder value if there is no input when the search button is clicked
+  var filterData = [];
+
+  if (inputDate.length > 0)
+  {
+    filterData = data.filter((ufo)=>ufo.datetime == inputDate);
   }
- 
-  var filterData = data.filter((ufo)=>ufo.datetime == inputDate);
+  else
+  {
+    filterData = data;
+  }
   
   var select = document.getElementById("shapeId");
   select.options.length=0;
@@ -122,7 +99,8 @@ function fillShape() {
    el.value = "";
    select.appendChild(el);
 
-  var filterData = data.filter((ufo)=>ufo.datetime == inputDate);  // filter the data based on the date input
+  
+  //var filterData = data.filter((ufo)=>ufo.datetime == inputDate);  // filter the data based on the date input
   
   var shape = filterData.map(function(item) // get the shape values in an array
   {
