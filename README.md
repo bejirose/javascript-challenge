@@ -1,4 +1,4 @@
-# javascript-challenge : UFO Sightings 
+# Javassript-challenge : UFO Sightings 
 
 ## Directory Structure
 ### 1) UFO-level-1
